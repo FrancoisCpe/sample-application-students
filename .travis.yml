@@ -20,29 +20,33 @@ jobs:
     - cd sample-application-frontend
     script:
     - echo "NPM install and build"
+    
+    
   - stage: Package
     before_script:
     - cd sample-application-backend
     script:
     - echo "Docker build ..."
+    - docker build -t lotarie73/app-backend .
     - echo "Docker login ..."
+    - docker login -u "$docker-id" "$docker-password"
     - echo "Docker push ..."
+    - docker push lotarie73/app-backend
+    
   - stage: Package
     before_script:
     - cd sample-application-frontend
     script:
     - echo "Docker build ..."
-    - echo "Docker login ..."
+    - docker build -t lotarie73/app-frontend .
+    - echo "Docker login ... $docker_id"
+    - docker login -u "$docker-id" "$docker_password"
     - echo "Docker push ..."
+    - docker push lotarie73/app-frontend
+
 cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.npm"
 services:
 - docker
-env:
-  global:
-  - secure: mrK9zLplgvT/9apfl0AxJY/DQ5zh13BgA0Wg3/fwLRDa6NwbfmsmBF8jTQ3tnuIEPOIxgBoyWGnwl8H/FPvuKsR5rkNE4HDjr6i6TaRtOeWUzGyPqQ/7LJiI4gTvbMuy61CUpPWkxpqmbRvqsLdr+cLeswUK9ZS+6mArdkRl1bOxAo9FFgyyYhL/8g1gl6eDixn7RPph7JelnCzs+pTfk3nh3WDCWGR5xAOfNHkKGlq2DIkMfgy8faJ36tkUVvaj4MufcXPFe7U8pa9iTJrSqA+9zQ70R8uuTaq8EguCchbChsFbCccEN0yfh8zfdtGQiLhbPbqEdP0PniXtrlfGx7lmC/swPkmV0AiU9eMY1v9U7B99+o+eBSRye0W3eKXvJoBLzerTV7vKk/1un+RIjAj4QWWkvXBkeOBZBnvcArDjzq3BPHDYrQEpMXpJbTdZR4fMHPsyfcCiomR0LXETOE6p6QroFH3iE/Gld8p1SKrlRkgwj5sWe0X87+TLk7gfPKf/2Ku5HetQibONgJcUwGQlTgYOsrbp0/l5637+tIOQCf+Ve8oTyoEWJqmSgXOkG3kseklUvmjTW8SOj/aHehOaEVe1zByvW9v5+zZy7QjS08/AMYbrgr25/yR8UYEHyIDdJ5+l3iQYzF/ipR0b7R6PayUS6x/Srkx3knBgkWI=
-  - secure: ZtkvpFWc8EMRF3mlU2w0AhQzuHkIbEss6OblHLol1DpUIX2DMYoeoEM+1ulgfDgiflSbR2neosCrWfDnbZLLz78uIhVbuZ/RVcQe+KsRnqg7j1Mq4K0dOYlRO7eqGEaMkv4EGA99AZd1rkld3+3yvnykdFv8wIqmDkBpy6g0p/rknlA0kptHKemIFBZxlf/DRMjTjrEDV0cW9E3Ls/nnUp0+rOtunYA1WkJ+q/DnS/hC4OTe27Pd5Gc8BvVV5v81iFtMu9pUNdefnfpxDNfkw0vyNDBHymJpXgODyp1Ctea70Qg6Nq5qTz023+X1dPK3Ee9vMZrvh+hGW573dt4RHBJkGg68Dm3JcQCbC49svexZNPWqWunohiXazl4EraKPScBHgX0RtCro58qk65CXaYv5X+1486s2njIb6a4hqPsQQHZjOTMK4tP9bgacNRNqoqojS5mprubk6L4ii6FfP1qbNLV2AeifaEvCj6qri76XSsvvDVAaa8cTaw/bd6iBH4b/BmFqVsuMBCQuPTY5iRdup1AluB4X8tfiB0anWrF683wX7+atgYsOqBlwFVgtcFNg8xXWu6tPbYJKNFXnGMQuLYKGIUpX1bbci0QS6dK4tVYIiqMRJ12q29XSU4IiSTIs4gRDcCwtcyLW+WDnZl2IOxLDRWFg1qV4r0YSGE8=
-#dockerid
-#docker-password
