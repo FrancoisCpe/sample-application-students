@@ -1,11 +1,11 @@
 git:
   depth: 5
 stages:
-- Build and Test
-- Package
+- "Build and Test"
+- "Package"
 jobs:
   include:
-  - stage: Build and Test
+  - stage: "Build and Test"
     language: java
     jdk: oraclejdk11
     before_script:
@@ -13,7 +13,7 @@ jobs:
     script:
     - echo "Maven build"
     - echo "Run test coverage and Quality Gate"
-  - stage: Build and Test
+  - stage: "Build and Test"
     language: node.js
     node_js: '12.20'
     before_script:
@@ -22,25 +22,25 @@ jobs:
     - echo "NPM install and build"
     
     
-  - stage: Package
+  - stage: "Package"
     before_script:
     - cd sample-application-backend
     script:
     - echo "Docker build ..."
     - docker build -t lotarie73/app-backend .
     - echo "Docker login ..."
-    - docker login -u "$docker-id" "$docker-password"
+    - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
     - echo "Docker push ..."
     - docker push lotarie73/app-backend
     
-  - stage: Package
+  - stage: "Package"
     before_script:
     - cd sample-application-frontend
     script:
     - echo "Docker build ..."
     - docker build -t lotarie73/app-frontend .
-    - echo "Docker login ... $docker_id"
-    - docker login -u "$docker-id" "$docker_password"
+    - echo "Docker login ... "
+    - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
     - echo "Docker push ..."
     - docker push lotarie73/app-frontend
 
